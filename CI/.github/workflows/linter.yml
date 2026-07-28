@@ -1,0 +1,47 @@
+# ==============================================================================
+# ARCHIVO DE AUTOMATIZACIÓN: Super Corrector de Código
+# ¿Qué es esto? Es una lista de instrucciones para un asistente virtual de GitHub.
+# Cada vez que subas cambios, este robot revisará tu trabajo automáticamente.
+# ==============================================================================
+
+# 1. NOMBRE DEL FLUJO
+# Así es como aparecerá este proceso dentro de la pestaña "Actions" en GitHub.
+name: Super Corrector de Código
+
+# 2. EL DISPARADOR (EVENTO)
+# ¿Cuándo se pone en marcha el robot? 
+# [push] significa: "Ejecútate automáticamente cada vez que alguien suba código al repositorio".
+on: [push]
+
+# 3. LOS TRABAJOS (JOBS)
+# Aquí definimos la lista de tareas que debe realizar nuestro asistente.
+jobs:
+
+  # Nombre de nuestro trabajo (puedes llamarlo como quieras, en este caso "revision")
+  revision:
+    
+    # ¿En qué ordenador de la nube vamos a trabajar?
+    # "ubuntu-latest" significa que GitHub nos prestará un ordenador virtual con Linux.
+    runs-on: ubuntu-latest
+
+    # 4. LOS PASOS PASO A PASO (STEPS)
+    # Estas son las ordenes exactas que seguirá el ordenador de la nube, en orden de arriba a abajo.
+    steps:
+
+      # ------------------------------------------------------------------------
+      # PASO 1: Descargar tus archivos
+      # El ordenador de la nube empieza completamente vacío. 
+      # Usamos esta "herramienta oficial" (checkout) para traer una copia de todo 
+      # tu código a la máquina virtual. Sin esto, el robot no puede ver tus archivos.
+      # ------------------------------------------------------------------------
+      - name: Copiar repositorio
+        uses: actions/checkout@v4
+
+      # ------------------------------------------------------------------------
+      # PASO 2: Revisar la tarea
+      # Aquí le decimos a la máquina que ejecute nuestro archivo de instrucciones (script).
+      # Ese script comprobará si has creado correctamente el archivo 'index.html'.
+      # Si el script detecta un error, este paso fallará y se pondrá Rojo ❌.
+      # ------------------------------------------------------------------------
+      - name: Comprobar archivo index.html
+        run: bash scripts/comprobar_html.sh
