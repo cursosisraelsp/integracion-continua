@@ -1,47 +1,40 @@
 # ==============================================================================
-# ARCHIVO DE AUTOMATIZACIÓN: Super Corrector de Código
-# ¿Qué es esto? Es una lista de instrucciones para un asistente virtual de GitHub.
-# Cada vez que subas cambios, este robot revisará tu trabajo automáticamente.
+# MI PRIMER AUTOMATISMO EN GITHUB ACTIONS
 # ==============================================================================
+# Este archivo es la "receta de cocina" que el robot de GitHub leerá y ejecutará.
+# Cada vez que guardes cambios y los subas a GitHub, estas instrucciones se activarán.
 
-# 1. NOMBRE DEL FLUJO
-# Así es como aparecerá este proceso dentro de la pestaña "Actions" en GitHub.
-name: Super Corrector de Código
+# NOMBRE DEL FLUJO (Workflow)
+# Es el título que verás en la pestaña "Actions" dentro de tu repositorio en GitHub.
+name: Mi Primer Automatismo
 
-# 2. EL DISPARADOR (EVENTO)
-# ¿Cuándo se pone en marcha el robot? 
-# [push] significa: "Ejecútate automáticamente cada vez que alguien suba código al repositorio".
+# ------------------------------------------------------------------------------
+# 1. ¿CUÁNDO SE DISPARA ESTE ROBOT? (Eventos / Triggers)
+# ------------------------------------------------------------------------------
+# 'on' le dice a GitHub qué acción del usuario despierta al robot.
+# [push] significa: "Ejecútate CADA VEZ que alguien suba código al repositorio".
 on: [push]
 
-# 3. LOS TRABAJOS (JOBS)
-# Aquí definimos la lista de tareas que debe realizar nuestro asistente.
+# ------------------------------------------------------------------------------
+# 2. ¿DÓNDE SE EJECUTA Y QUÉ TAREAS HACE? (Jobs)
+# ------------------------------------------------------------------------------
+# 'jobs' es la lista de trabajos principales. Aquí creamos un trabajo llamado "saludo".
 jobs:
-
-  # Nombre de nuestro trabajo (puedes llamarlo como quieras, en este caso "revision")
-  revision:
-    
-    # ¿En qué ordenador de la nube vamos a trabajar?
-    # "ubuntu-latest" significa que GitHub nos prestará un ordenador virtual con Linux.
+  saludo:
+    # 'runs-on' define la máquina virtual que nos presta GitHub en la nube.
+    # 'ubuntu-latest' es un ordenador limpio con sistema operativo Linux (Ubuntu).
     runs-on: ubuntu-latest
 
-    # 4. LOS PASOS PASO A PASO (STEPS)
-    # Estas son las ordenes exactas que seguirá el ordenador de la nube, en orden de arriba a abajo.
+    # 'steps' es la lista de pasos que la máquina virtual ejecutará EN ORDEN (de arriba a abajo).
     steps:
+      
+      # PASO 1: Imprimir un mensaje en pantalla
+      # 'name' es la etiqueta visible del paso.
+      # 'run' es el comando de consola que se ejecuta (echo es como escribir en pantalla).
+      - name: Saludar al estudiante
+        run: echo "¡Hola! Has subido código correctamente a GitHub 🎉"
 
-      # ------------------------------------------------------------------------
-      # PASO 1: Descargar tus archivos
-      # El ordenador de la nube empieza completamente vacío. 
-      # Usamos esta "herramienta oficial" (checkout) para traer una copia de todo 
-      # tu código a la máquina virtual. Sin esto, el robot no puede ver tus archivos.
-      # ------------------------------------------------------------------------
-      - name: Copiar repositorio
-        uses: actions/checkout@v4
-
-      # ------------------------------------------------------------------------
-      # PASO 2: Revisar la tarea
-      # Aquí le decimos a la máquina que ejecute nuestro archivo de instrucciones (script).
-      # Ese script comprobará si has creado correctamente el archivo 'index.html'.
-      # Si el script detecta un error, este paso fallará y se pondrá Rojo ❌.
-      # -------------------------------------------------------------------------
-      - name: Comprobar archivo index.html
-        run: bash CI/scripts/comprobar_html.sh
+      # PASO 2: Consultar la hora de la máquina virtual
+      # 'date' es un comando de Linux que le pide al ordenador la fecha y la hora actual.
+      - name: Mostrar la fecha del sistema
+        run: date
