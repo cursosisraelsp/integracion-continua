@@ -23,7 +23,7 @@ jobs:
       - name: Subir la carpeta del código
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.' # Sube todo el contenido del repositorio
+          path: './CI' # Sube todo el contenido del repositorio
 
       - name: Publicar en Internet
         uses: actions/deploy-pages@v4
