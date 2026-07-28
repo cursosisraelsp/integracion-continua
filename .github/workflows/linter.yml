@@ -1,40 +1,29 @@
-# ==============================================================================
-# MI PRIMER AUTOMATISMO EN GITHUB ACTIONS
-# ==============================================================================
-# Este archivo es la "receta de cocina" que el robot de GitHub leerá y ejecutará.
-# Cada vez que guardes cambios y los subas a GitHub, estas instrucciones se activarán.
+name: Publicar mi Web
 
-# NOMBRE DEL FLUJO (Workflow)
-# Es el título que verás en la pestaña "Actions" dentro de tu repositorio en GitHub.
-name: Mi Primer Automatismo
+on:
+  push:
+    branches: ["desplegue-pages"] # Solo cuando subimos a la rama principal
 
-# ------------------------------------------------------------------------------
-# 1. ¿CUÁNDO SE DISPARA ESTE ROBOT? (Eventos / Triggers)
-# ------------------------------------------------------------------------------
-# 'on' le dice a GitHub qué acción del usuario despierta al robot.
-# [push] significa: "Ejecútate CADA VEZ que alguien suba código al repositorio".
-on: [push]
+# Permisos necesarios para publicar la web
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-# ------------------------------------------------------------------------------
-# 2. ¿DÓNDE SE EJECUTA Y QUÉ TAREAS HACE? (Jobs)
-# ------------------------------------------------------------------------------
-# 'jobs' es la lista de trabajos principales. Aquí creamos un trabajo llamado "saludo".
 jobs:
-  saludo:
-    # 'runs-on' define la máquina virtual que nos presta GitHub en la nube.
-    # 'ubuntu-latest' es un ordenador limpio con sistema operativo Linux (Ubuntu).
+  deploy:
     runs-on: ubuntu-latest
-
-    # 'steps' es la lista de pasos que la máquina virtual ejecutará EN ORDEN (de arriba a abajo).
     steps:
-      
-      # PASO 1: Imprimir un mensaje en pantalla
-      # 'name' es la etiqueta visible del paso.
-      # 'run' es el comando de consola que se ejecuta (echo es como escribir en pantalla).
-      - name: Saludar al estudiante
-        run: echo "¡Hola! Has subido código correctamente a GitHub 🎉"
+      - name: Descargar el código
+        uses: actions/checkout@v4
 
-      # PASO 2: Consultar la hora de la máquina virtual
-      # 'date' es un comando de Linux que le pide al ordenador la fecha y la hora actual.
-      - name: Mostrar la fecha del sistema
-        run: date
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Subir la carpeta del código
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # Sube todo el contenido del repositorio
+
+      - name: Publicar en Internet
+        uses: actions/deploy-pages@v4
